@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public class Tests {
     public static void main(String[] args) {
         Tests tests = new Tests();
-        tests.test_6();
+        tests.test_7();
 
     }
 
@@ -93,6 +93,34 @@ public class Tests {
      */
     public void test_7() {
         List<WebElement> elements = getElements();
+        Stream<WebElement> myStream = elements.stream();
+        System.out.println();
+        List<WebElement> result = myStream.map(item -> {
+
+            if (item.isDisplayed())
+                item.setDisplayed(false);
+            else {
+                item.setDisplayed(true);
+            }
+            return item;
+        }).sorted((item1, item2) -> {
+            Map<String, Integer> mapPriority= new HashMap<>();
+            mapPriority.put("TEXT", 1);
+            mapPriority.put("INPUT_FIELD", 2);
+            mapPriority.put("CHECKBOX", 3);
+            mapPriority.put("BUTTON", 4);
+            mapPriority.put("RADIO_BUTTON", 5);
+            mapPriority.put("IMAGE", 6);
+            int res = 0;
+            if (mapPriority.get(item1.getType().name()) < mapPriority.get(item2.getType().name())){
+                res = -1;
+            }
+            else if (mapPriority.get(item1.getType().name()) > mapPriority.get(item2.getType().name())){
+                res = 1;
+            }
+            return res;
+        }).collect(Collectors.toList());
+        System.out.println();
     }
 
     /**
