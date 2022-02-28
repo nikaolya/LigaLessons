@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public class Tests {
     public static void main(String[] args) {
         Tests tests = new Tests();
-        tests.test_7();
+        tests.test_8();
 
     }
 
@@ -130,6 +130,16 @@ public class Tests {
      */
     public void test_8() {
         List<WebElement> elements = getElements();
+        Stream<WebElement> myStream = elements.stream();
+        Map<String,String> result = myStream.collect(Collectors.toMap(item -> {
+            // Это позволяет с большей вероятностью вывести элементы у которых у всех ключ получается null
+            if (item.getText() == null){
+                return item.getText()+String.valueOf(new Random().nextInt(100000));
+            } else {
+                return item.getText();
+            }
+        }, item -> item.getType().name()));
+        System.out.println();
     }
 
     /**
