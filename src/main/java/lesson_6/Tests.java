@@ -1,13 +1,14 @@
 package lesson_6;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Tests {
     public static void main(String[] args) {
-        System.out.println();
+        Tests tests = new Tests();
+        tests.test_6();
+
     }
 
     /**
@@ -15,6 +16,9 @@ public class Tests {
      */
     public void test_1() {
         List<Integer> integerList = getIntList();
+        Stream<Integer> myStream = integerList.stream();
+        List<String> result = myStream.map(String::valueOf).collect(Collectors.toList());
+        System.out.println();
     }
 
     /**
@@ -22,6 +26,9 @@ public class Tests {
      */
     public void test_2() {
         List<Integer> integerList = getIntList();
+        Stream<Integer> myStream = integerList.stream();
+        List<Integer> result = myStream.sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        System.out.println();
     }
 
     /**
@@ -32,6 +39,10 @@ public class Tests {
      */
     public void test_3() {
         List<String> stringList = getStringList();
+        Stream<String> myStream = stringList.stream();
+        String result = myStream.map(item -> "Number - " + item)
+                .collect(Collectors.joining(", ", "Number list: ", "end of list."));
+        System.out.println(result);
     }
 
     /**
@@ -39,6 +50,10 @@ public class Tests {
      */
     public void test_4() {
         Map<Integer, String> map = getMap();
+        Stream<Map.Entry<Integer, String>> myStream = getMap().entrySet().stream();
+        Map<Integer, String> result = myStream.filter(item -> item.getKey() > 3 && item.getKey() < 9)
+                        .collect(Collectors.toMap(item -> item.getKey(), item -> item.getValue()));
+        System.out.println();
     }
 
     /**
@@ -51,13 +66,19 @@ public class Tests {
      */
     public void test_5() {
         Map<Integer, String> map = getMap();
+        // No idea...
     }
+
+
 
     /**
      * Установить во всех элементах isDisplayed = true, и оставить в списке только элементы с value NULL.
      */
     public void test_6() {
         List<WebElement> elements = getElements();
+        Stream <WebElement> myStream = elements.stream();
+        List<WebElement> result = myStream.peek(item -> item.setDisplayed(true)).filter(item -> item.getValue() == null).collect(Collectors.toList());
+        System.out.println();
     }
 
     /**
