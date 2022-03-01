@@ -160,18 +160,7 @@ public class Tests {
     public void test_9() {
         List<WebElement> elements = getElements();
         Stream<WebElement> myStream = elements.stream();
-        System.out.println();
-/*        List<WebElement> result = myStream.filter(item -> (item.getText() != null && Integer.parseInt(item.getText().substring(item.getText().length()-3).trim()) >= 500)
-                || (item.getValue() != null && Integer.parseInt(item.getValue().substring(item.getValue().length()-3).trim()) >= 500))
-        .sorted((item1, item2) -> {
-            int res = 0;
-            if (item1.getText() != null && item2.getText() == null){
-                res = -1;
-            } else if (item1.getText() == null && item2.getText() != null){
-                res = 1;
-            }
-            return res;
-        }).collect(Collectors.toList());*/
+
         List<WebElement> list1 = myStream.filter(item -> (item.getText() != null && Integer.parseInt(item.getText().replaceAll("[\\D]", " ").trim()) >= 500))
                 .sorted((item1, item2) -> {
                     int res = 0;
