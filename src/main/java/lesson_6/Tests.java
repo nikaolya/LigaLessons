@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public class Tests {
     public static void main(String[] args) {
         Tests tests = new Tests();
-        tests.test_5();
+        tests.test_9();
 
     }
 
@@ -151,17 +151,6 @@ public class Tests {
                 .collect(Collectors.toMap(item -> item.getText(), item -> item.getType().name()));
         System.out.println();
 
-        // Или можно попробовать вот так и выводить значение элементов вместо текста, если в тексте null
-        // Я дописала еще одно условие в private void setValue(Type type) для IMAGE
-        Map<String, String> result2 = elements.stream()
-                .collect(Collectors.toMap(item -> {
-                    if (item.getType().equals(Type.IMAGE) || item.getType().equals(Type.INPUT_FIELD)){
-                        return item.getValue();
-                    } else {
-                        return item.getText();
-                    }
-                }, item -> item.getType().name()));
-        System.out.println();
     }
 
     /**
@@ -170,6 +159,47 @@ public class Tests {
      */
     public void test_9() {
         List<WebElement> elements = getElements();
+        Stream<WebElement> myStream = elements.stream();
+        System.out.println();
+/*        List<WebElement> result = myStream.filter(item -> (item.getText() != null && Integer.parseInt(item.getText().substring(item.getText().length()-3).trim()) >= 500)
+                || (item.getValue() != null && Integer.parseInt(item.getValue().substring(item.getValue().length()-3).trim()) >= 500))
+        .sorted((item1, item2) -> {
+            int res = 0;
+            if (item1.getText() != null && item2.getText() == null){
+                res = -1;
+            } else if (item1.getText() == null && item2.getText() != null){
+                res = 1;
+            }
+            return res;
+        }).collect(Collectors.toList());*/
+        List<WebElement> list1 = myStream.filter(item -> (item.getText() != null && Integer.parseInt(item.getText().replaceAll("[\\D]", " ").trim()) >= 500))
+                .sorted((item1, item2) -> {
+                    int res = 0;
+                    if (Integer.parseInt(item1.getText().replaceAll("[\\D]", " ").trim()) > Integer.parseInt(item2.getText().replaceAll("[\\D]", " ").trim())){
+                        res = 1;
+                    } else {
+                        res = -1;
+                    }
+                    return res;
+                }).collect(Collectors.toList());
+
+        Stream<WebElement> myStream2 = elements.stream();
+        List<WebElement> list2 = myStream2.filter(item -> (item.getValue() != null && Integer.parseInt(item.getValue().replaceAll("[\\D]", " ").trim()) >= 500))
+                .sorted((item1, item2) -> {
+                    int res = 0;
+                    if (Integer.parseInt(item1.getValue().replaceAll("[\\D]", " ").trim()) > Integer.parseInt(item2.getValue().replaceAll("[\\D]", " ").trim())){
+                        res = -1;
+                    } else {
+                        res = 1;
+                    }
+                    return res;
+                }).collect(Collectors.toList());
+
+        List<WebElement> result = new ArrayList<WebElement>();
+        result.addAll(list1);
+        result.addAll(list2);
+        System.out.println();
+
     }
 
     public static Map<Integer, String> getMap() {

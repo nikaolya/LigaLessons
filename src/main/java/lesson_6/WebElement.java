@@ -25,9 +25,6 @@ public class WebElement {
     private void setValue(Type type) {
         if (type.equals(Type.INPUT_FIELD))
             value = "Value of element " + new Random().nextInt(1000);
-        // Это условие дописано, чтобы работал test_8
-        if (type.equals(Type.IMAGE))
-            value = "Image " + new Random().nextInt(1000);
     }
 
     public Type getType() {
