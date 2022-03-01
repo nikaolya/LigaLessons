@@ -1,13 +1,14 @@
 package lesson_6;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Tests {
     public static void main(String[] args) {
         Tests tests = new Tests();
-        tests.test_8();
+        tests.test_5();
 
     }
 
@@ -66,7 +67,18 @@ public class Tests {
      */
     public void test_5() {
         Map<Integer, String> map = getMap();
-        // No idea...
+        Stream<Integer> myStream = map.keySet().stream();
+        List<Integer> keyList = myStream.collect(Collectors.toList());
+        Collections.shuffle(keyList);
+/*        Integer[] keyArray = myStream.toArray(Integer[]::new);
+        Collections.shuffle(Arrays.asList(keyArray));
+        List<Integer> keyList = Arrays.asList(keyArray);*/
+        Consumer<Integer> printResult = item -> {
+            System.out.println("Элемент " + keyList.indexOf(item) + ": ключ - " + item + ", значение \"" + map.get(item) + "\"");
+        };
+        keyList.stream().forEach(printResult);
+
+        System.out.println();
     }
 
 
