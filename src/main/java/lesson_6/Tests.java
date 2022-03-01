@@ -130,15 +130,25 @@ public class Tests {
      */
     public void test_8() {
         List<WebElement> elements = getElements();
+        // Не знаю, можно ли было так, но там было очень много элементов типа IMAGE и INPUT_FIELD с текстом null
+        // и получалось очень много одинаковых ключей, поэтому все элементы с null отфильтрованы
+        // так тоже иногда встречается одинаковый текст и вылетает ошибка, но редко
+
         Stream<WebElement> myStream = elements.stream();
-        Map<String,String> result = myStream.collect(Collectors.toMap(item -> {
-            // Это позволяет с большей вероятностью вывести элементы у которых у всех ключ получается null
-            if (item.getText() == null){
-                return item.getText()+String.valueOf(new Random().nextInt(100000));
-            } else {
-                return item.getText();
-            }
-        }, item -> item.getType().name()));
+        Map<String, String> result = myStream.filter(item -> item.getText() != null)
+                .collect(Collectors.toMap(item -> item.getText(), item -> item.getType().name()));
+        System.out.println();
+
+        // Или можно попробовать вот так и выводить значение элементов вместо текста, если в тексте null
+        // Я дописала еще одно условие в private void setValue(Type type) для IMAGE
+        Map<String, String> result2 = elements.stream()
+                .collect(Collectors.toMap(item -> {
+                    if (item.getType().equals(Type.IMAGE) || item.getType().equals(Type.INPUT_FIELD)){
+                        return item.getValue();
+                    } else {
+                        return item.getText();
+                    }
+                }, item -> item.getType().name()));
         System.out.println();
     }
 
