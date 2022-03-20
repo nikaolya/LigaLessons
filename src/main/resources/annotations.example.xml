@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Примеры работы с аннотациями">
+    <groups>
+        <run>
+            <include name="smoke"></include>
+        </run>
+    </groups>
+    <test name="Примеры запусков всех аннотаций">
+        <classes>
+            <class name="lesson_9.annotations.AnnotationsExample"/>
+            <class name="lesson_9.annotations.AnotherTestClass"/>
+        </classes>
+    </test>
+    <test name="Дополнительный блок тест">
+        <classes>
+            <class name="lesson_9.annotations.NewTests"/>
+        </classes>
+    </test>
+</suite>

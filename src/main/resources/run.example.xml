@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Примеры" thread-count="2" parallel="methods">
+    <test name="Примеры запусков аннотации test">
+        <classes>
+            <class name="lesson_9.RunExampleTests"></class>
+        </classes>
+    </test>
+</suite>
