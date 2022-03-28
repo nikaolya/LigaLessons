@@ -1,11 +1,13 @@
-package lesson_11.homework.pages;
+package lesson_11.homework.pages.listing;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 
 public class ProductCard {
 
     private SelenideElement titleLineContainer;
+    private SelenideElement name;
     private SelenideElement priceLabel;
     private SelenideElement addToCartButton;
     private SelenideElement addToFavoritesButton;
@@ -17,6 +19,7 @@ public class ProductCard {
     private ProductCard(String productName) {
         String titleContainerPath = String.format(XPATH_TITLE_LINE_CONTAINER + XPATH_NESTED_NAME_LINK, productName);
         titleLineContainer = Selenide.$x(titleContainerPath);
+        name = titleLineContainer.find(By.tagName("mvid-plp-product-title"));
         priceLabel = Selenide.$x(titleContainerPath +
                 "/following-sibling::div[contains(@class, 'product-card__price-block-container')]" +
                 "//span[@class = 'price__main-value']");
@@ -31,5 +34,13 @@ public class ProductCard {
 
     static ProductCard getProductCard(String productName) {
         return new ProductCard(productName);
+    }
+
+    public boolean isNameDisplayed() {
+        return name.isDisplayed();
+    }
+
+    public void scrollTo() {
+        name.scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"center\"}");
     }
 }
