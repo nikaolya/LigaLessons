@@ -112,10 +112,6 @@ public class ListingPage {
     public int getPagitationCount() {
         ElementsCollection numbers = Selenide.$$x(XPATH_PAGINATION_CONTAINER +
                 "/li[contains(@class, 'page-item') and contains(@class, 'ng-star-inserted')]");
-//        int result = 0;
-//        int lastIndex = numbers.size() - 1;
-//        if (lastIndex > -1) result = Integer.parseInt(numbers.get(lastIndex).getText());
-//        return result;
         return Integer.parseInt(numbers.last().getText());
     }
 
